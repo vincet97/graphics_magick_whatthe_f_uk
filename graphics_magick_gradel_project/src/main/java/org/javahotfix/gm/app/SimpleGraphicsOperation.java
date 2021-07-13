@@ -200,6 +200,17 @@ public class SimpleGraphicsOperation {
 		operation.addImage();
 		operation.tile(2,2);
 
+		/*
+		# Geometry function is extremely fucked up from our pov.
+		# Program Flow->
+		# First argument gets appended if not null
+		# If the first or second arg is not null it appends an "x"
+		# Second argument gets appended if not null
+		# If the second or third arg is not null it appends a "+"
+		# Third argument gets appended if not null
+		# If the third or fourth arg is not null it appends a "+"
+		# Fourth argument gets appended if not null
+		*/
 		operation.geometry(null,null,60,60);
 		operation.addImage();
 		montageCmd.run(operation, img1, img1, img1, img1, temp);
