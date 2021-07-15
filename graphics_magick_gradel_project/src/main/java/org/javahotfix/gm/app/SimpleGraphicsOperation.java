@@ -1,9 +1,6 @@
 package org.javahotfix.gm.app;
 
-import org.im4java.core.ConvertCmd;
-import org.im4java.core.IM4JavaException;
-import org.im4java.core.IMOperation;
-import org.im4java.core.MontageCmd;
+import org.im4java.core.*;
 import org.im4java.process.Pipe;
 import org.im4java.process.ProcessStarter;
 
@@ -83,13 +80,24 @@ public class SimpleGraphicsOperation {
 			FileInputStream fis1 = new FileInputStream("C:\\TestImages\\testimg1.jpg");
 
 			FileOutputStream fos = new FileOutputStream(targetFilePath4);
-			obj1.montageCreator(fis1 ,"placeholder", targetFilePath5);
+			obj1.montageCreator(fis1, "placeholder", targetFilePath5);
 			System.out.println("Success Perofm Image Montage");
 
 		} catch (Exception ex) {
 			System.out.println("Unable to Generate the montage. Got Error :" + ex.getMessage());
 			ex.printStackTrace();
 		}
+
+		String targetFilePath6 = "C:\\TestImages\\boldi.jpg";
+		try {
+			addTextWatermark(targetFilePath6,"C:\\TestImages\\watermark1.jpeg","DT_Qodak_PhotoPlatform!");
+
+		}catch(Exception ex)
+		{
+			System.out.println("Unable to Generate the montage. Got Error :" + ex.getMessage());
+			ex.printStackTrace();
+		}
+
 
 	}
 
@@ -198,7 +206,7 @@ public class SimpleGraphicsOperation {
 		operation.addImage();
 		operation.addImage();
 		operation.addImage();
-		operation.tile(2,2);
+		operation.tile(2, 2);
 
 		/*
 		# Geometry function is extremely fucked up from our pov.
@@ -211,7 +219,8 @@ public class SimpleGraphicsOperation {
 		# If the third or fourth arg is not null it appends a "+"
 		# Fourth argument gets appended if not null
 		*/
-		operation.geometry(null,null,60,60);
+
+		operation.geometry(null, null, 60, 60);
 		operation.addImage();
 		montageCmd.run(operation, img1, img1, img1, img1, temp);
 
@@ -220,12 +229,34 @@ public class SimpleGraphicsOperation {
 		operation.gravity("center");
 		//operation.extent(100);
 		operation.addImage();
-		command.run(operation,temp,output);
+		command.run(operation, temp, output);
 
 
 	}
 
+	public static void addTextWatermark(String srcImagePath, String destImagePath, String content) throws Exception {
+		IMOperation op = new IMOperation();
+
+		op.addImage();
+		op.gravity("center");
+		op.font("Arial-Bold");
+		op.fill("white");
+		op.draw("font-size 50 rotate 45 text 0,0 " + content);
+		op.quality(100.00);
+
+		op.addImage();
+
+
+
+
+		ConvertCmd command = new ConvertCmd(true);
+		command.run(op,srcImagePath,destImagePath);
+
+	}
+
+
 }
+
 
 
 
